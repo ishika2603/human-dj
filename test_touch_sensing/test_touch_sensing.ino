@@ -22,7 +22,7 @@ void calibrateThresholds() {
 }
 
 void loop() {
-
+  // loop through each pin and check if touched
   for (int i = 0; i < numPeople; i++) {
     int touchValue = analogRead(touchPins[i]); // Read value from each sensor
 

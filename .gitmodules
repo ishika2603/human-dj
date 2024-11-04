@@ -1,0 +1,3 @@
+[submodule "midi/libraries/Control-Surface"]
+	path = midi/libraries/Control-Surface
+	url = https://github.com/tttapa/Control-Surface.git

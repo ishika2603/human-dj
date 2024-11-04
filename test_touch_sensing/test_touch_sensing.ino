@@ -1,29 +1,52 @@
-const int touchPin1 = A5; // Define the analog pin connected to the touch sensor
-const int touchPin2 = A3;
-const int threshold = 750; // Set a threshold for detecting touch (adjust based on testing)
+const int touchPins[] = {A3, A5};
+const int numPeople = sizeof(touchPins) / sizeof(touchPins[0]);
+int touchThresholds[numPeople]; // store dynamic thresholds for each pin
+int touchStatus[numPeople]; // store current touch status (0 or 1)
 
 void setup() {
   Serial.begin(9600); // Begin serial communication to monitor the touch input
+  Serial.println("Starting calibration...");
+  calibrateThresholds(); // Set initial thresholds based on environment
+  Serial.println("Ending calibration...");
+}
+
+void calibrateThresholds() {
+  for (int i = 0; i < numPeople; i++) {
+    int initialValue = analogRead(touchPins[i]);
+    touchThresholds[i] = initialValue - 100; // Set threshold slightly below initial value
+    Serial.print("Calibrated threshold for Person ");
+    Serial.print(i + 1);
+    Serial.print(": ");
+    Serial.println(touchThresholds[i]);
+  }
 }
 
 void loop() {
-  int touchValue1 = analogRead(touchPin1); // Read the analog value from the touch sensor
-  int touchValue2 = analogRead(touchPin2); 
 
-  // Serial.print("Person 1 ");
-  // Serial.println(touchValue1);
+  for (int i = 0; i < numPeople; i++) {
+    int touchValue = analogRead(touchPins[i]); // Read value from each sensor
 
-  // Serial.print("Person 2 ");
-  // Serial.println(touchValue2);
+    if (touchValue < touchThresholds[i]) {
+      touchStatus[i] = 1;
 
-  if (touchValue1 < threshold) {
-    Serial.println("Person 1 detected!"); // Print a message if a touch is detected
-  } 
-  if (touchValue2 < threshold) {
-    Serial.println("Person 2 detected!"); // Print a message if a touch is detected
-  } // else {
-  //   Serial.println("No touch."); // Print a message if no touch is detected
-  // }
+      Serial.print("Person ");
+      Serial.print(i + 1);
+      Serial.println(" detected!"); // Print message if touch is detected
+    }
+    else{
+      touchStatus[i] = 0;
+    } 
+  }
+
+  // Print touch status array
+  Serial.print("Touch Status: [");
+  for (int i = 0; i < numPeople; i++) {
+    Serial.print(touchStatus[i]);
+    if (i < numPeople - 1) {
+      Serial.print(", ");
+    }
+  }
+  Serial.println("]");
 
   delay(100); // Small delay for stability
 }

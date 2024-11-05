@@ -1,13 +1,22 @@
+#include <Control_Surface.h>
+
 const int touchPins[] = {A3, A5};
 const int numPeople = sizeof(touchPins) / sizeof(touchPins[0]);
 int touchThresholds[numPeople]; // store dynamic thresholds for each pin
 int touchStatus[numPeople]; // store current touch status (0 or 1)
+
+HardwareSerialMIDI_Interface midi {Serial1, MIDI_BAUD};
+const uint8_t velocity = 127;
 
 void setup() {
   Serial.begin(9600); // Begin serial communication to monitor the touch input
   Serial.println("Starting calibration...");
   calibrateThresholds(); // Set initial thresholds based on environment
   Serial.println("Ending calibration...");
+
+  midi.begin();
+
+
 }
 
 void calibrateThresholds() {
@@ -32,9 +41,12 @@ void loop() {
       Serial.print("Person ");
       Serial.print(i + 1);
       Serial.println(" detected!"); // Print message if touch is detected
+
+      midi.sendNoteOn(MIDI_Notes::C[i], velocity);  
     }
     else{
       touchStatus[i] = 0;
+      midi.sendNoteOff(MIDI_Notes::C[i], velocity);  
     } 
   }
 

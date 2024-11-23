@@ -1,4 +1,7 @@
-
+/*
+touch sensing module to calibrate voltage thresholds and update touch states whenever a touch is detected. 
+Used within FSM model in humandj.ino to update/initialize variables.
+*/
 
 void calibrate_voltage() {
     /*
@@ -17,33 +20,26 @@ void calibrate_voltage() {
 
 }
 
-
-
 void update_touch_states(int* touch_states) {
     /*
     Updates the touch states based on who the DJ is currently touching / or not touching.
-    returns: touch_states
+    returns: void
     */
 
-    for (int i = 0; i < numPeople; i++) {
-    int touchValue = analogRead(touchPins[i]); // Read value from each sensor
+    for (int i = 0; i < NUM_PEOPLE; i++) {
+        int touchValue = analogRead(touchPins[i]); // Read value from each sensor
 
-    if (touchValue < touchThresholds[i]) {
-    touchStatus[i] = 1;
+        if (touchValue < touchThresholds[i]) {
+            touch_states[i] = 1; // Update the state in the passed-in array
 
-    Serial.print("Person ");
-    Serial.print(i + 1);
-    Serial.println(" detected!"); // Print message if touch is detected
+            Serial.print("Person ");
+            Serial.print(i + 1);
+            Serial.println(" detected!"); // Print message if touch is detected
 
-    midi.sendNoteOn(MIDI_Notes::C[i], velocity);  
+        } else {
+            touch_states[i] = 0; // Update the state in the passed-in array
+        }
     }
-    else{
-    touchStatus[i] = 0;
-    midi.sendNoteOff(MIDI_Notes::C[i], velocity);  
-    } 
-    }
-
-
 }
 
 

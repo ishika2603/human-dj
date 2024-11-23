@@ -20,6 +20,7 @@ void setup() {
   isReady = false;
   newTouch = false;
   stopTouch = false;
+  touchVector = {0, 0, 0, 0}; // check_for_change(touchVector, sliderVector, ) 
   signalSent = false;
   sliderChange = {0,0};
 }
@@ -41,15 +42,17 @@ state updateFSM(state curState) {
       isReady = true; 
     }
     else { // transition 1-2
-
+      newTouch = false;
+      stopTouch = false;
+      sliderChange = {0,0};
 
     }
     break;
   case sWAIT_FOR_CHANGE:
-    if () { // transition 2-2
-
+    if ((newTouch ==false)&&(stopTouch == false)&&(sliderChange[0] == 0) && (sliderChange[1] == 0)) { // transition 2-2
+      check_for_change();
     }
-    else if () { // transition 2-3
+    else if (newTouch) { // transition 2-3
 
     }
     else if () { // transition 2-4

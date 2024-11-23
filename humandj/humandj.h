@@ -11,10 +11,8 @@ int touchThresholds[NUM_PEOPLE]; // store dynamic thresholds for each pin
 typedef enum {
   sINIT = 1,
   sWAIT_FOR_CHANGE = 2,
-  sSEND_START_NOTE = 3,
-  sSEND_END_NOTE = 4,
-  sSEND_SLIDER_CHANGE = 5,
+  sSEND_SIGNAL = 3,
 } state;
 
-
+bool touch_equals_midi();
 state updateFSM();

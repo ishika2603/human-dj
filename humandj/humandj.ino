@@ -1,10 +1,9 @@
 #include "humandj.h"
 
-
-int touchStatus[numPeople]; // store current touch status (0 or 1)
-
-static bool isReady, newTouch, stopTouch, signalSent;
-static int sliderChange[2]; 
+static bool isReady, signalSent;
+static int faderVector[2]; 
+static int touchVector[NUM_PEOPLE];
+static int midiVector[NUM_PEOPLE];
 
 
 
@@ -12,17 +11,27 @@ static int sliderChange[2];
 void setup() {
   // put your setup code here, to run once:
   isReady = false;
-  newTouch = false;
-  stopTouch = false;
-  touchVector = {0, 0, 0, 0}; // check_for_change(touchVector, sliderVector, ) 
   signalSent = false;
-  sliderChange = {0,0};
+  touchVector = {0, 0, 0, 0}; // check_for_change(touchVector, sliderVector, ) 
+  midiVector = {0, 0, 0, 0};
+  faderVector = {0,0};
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
 }
+
+bool touch_equals_midi(){
+  size = (sizeof(touchVector) / sizeof(touchVector[0]);
+  for (int i = 0; i < size; i++) {
+        if (touchVector[i] != midiVector[i]) {
+            return false; // If any element is different, the vectors are not equal
+        }
+    }
+    return true;
+}
+
 
 state updateFSM(state curState) {
   state nextState;
@@ -32,69 +41,34 @@ state updateFSM(state curState) {
     if (!isReady) { // transition 1-1
       init_MIDI();
       calibrate_voltage();
-      init_sliders();
+      faderVector = update_fader_states();
       isReady = true; 
+      midiVector = {0, 0, 0, 0};
+      touchVector = {0, 0, 0, 0};
     }
     else { // transition 1-2
-      newTouch = false;
-      stopTouch = false;
-      sliderChange = {0,0};
-
+      nextState = sWAIT_FOR_CHANGE;
+      light_LED();
     }
     break;
   case sWAIT_FOR_CHANGE:
-    if ((newTouch ==false)&&(stopTouch == false)&&(sliderChange[0] == 0) && (sliderChange[1] == 0)) { // transition 2-2
-      check_for_change();
-    }
-    else if (newTouch) { // transition 2-3
-
-    }
-    else if () { // transition 2-4
-
-    }
-    else if () { // transition 2-5
-
+    if (touch_equals_midi()) { // transition 2-2
+      touchVector = update_touch_states();
+      faderVector = update_fader_states();
     }
     else{
-
+      signalSent = false;
+      nextState = sSEND_SIGNAL;
     }
     break;
-  case sSEND_START_NOTE:
-    if () { // transition 3-2
-
+  case sSEND_SIGNAL:
+    if (signalSent) { // transition 3-2
+      nextState = sWAIT_FOR_CHANGE;
     }
-    else if () { // transition 3-3
-
+    else{ // transition 3-3
+      midiVector = send_signal(touchVector, midiVector, faderVector);
+      signalSent = true;
     }
-    }else{
-
-    }
-    // add else if/else
-    break;
-
-  case sSEND_END_NOTE:
-    if () { // transition 4-2
-
-    }
-    else if () { // transition 4-4
-
-    }
-    }else{
-
-    }
-    // add else if/else
-    break;
-  case sSEND_SLIDER_CHANGE:
-    if () { // transition 5-2
-
-    }
-    else if () { // transition 5-5
-
-    }
-    }else{
-
-    }
-    // add else if/else
     break;
   return nextState;
 }

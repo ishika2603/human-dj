@@ -1,9 +1,7 @@
 #include "humandj.h"
 #include <Control_Surface.h>
 
-const int touchPins[] = {A3, A5};
-const int numPeople = sizeof(touchPins) / sizeof(touchPins[0]);
-int touchThresholds[numPeople]; // store dynamic thresholds for each pin
+
 int touchStatus[numPeople]; // store current touch status (0 or 1)
 
 HardwareSerialMIDI_Interface midi {Serial1, MIDI_BAUD};

@@ -1,5 +1,3 @@
-
-
 const int touchPins[] = {A3, A5};
 const int NUM_PEOPLE = sizeof(touchPins) / sizeof(touchPins[0]);
 int touchThresholds[NUM_PEOPLE]; // store dynamic thresholds for each pin
@@ -17,5 +15,17 @@ typedef enum {
   sSEND_SIGNAL = 3,
 } state;
 
+// music.ino
+void init_MIDI();
+bool send_signal(int* touch_states, int* midi_states, int* fader_states);
+void send_pitch_bend(int analog_pitch);
+
+// touch_sense.ino
+void update_touch_states(int* touch_states);
+void calibrate_voltage();
+
+// sliders.ino
+void update_fader_states(int* fader_states);
+
 bool touch_equals_midi();
-state updateFSM();
+state updateFSM(state curState);

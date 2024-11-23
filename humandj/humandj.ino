@@ -66,8 +66,7 @@ state updateFSM(state curState) {
       nextState = sWAIT_FOR_CHANGE;
     }
     else{ // transition 3-3
-      midiVector = send_signal(touchVector, midiVector, faderVector);
-      signalSent = true;
+      signalSent = send_signal(touchVector, midiVector, faderVector);
     }
     break;
   return nextState;

@@ -13,9 +13,12 @@ MIDIAddress notes[4] = {MIDI_Notes::C[4], MIDI_Notes::D[4], MIDI_Notes::E[4], MI
 const uint8_t velocity = 127;
 
 // initialize the MIDI interface
-void init_midi() {
+void init_MIDI() {
     midi.begin();
 }
+
+// this seems useful
+// https://github.com/tttapa/Control-Surface/blob/317e36a6311df88f14a4d7053815d7a187766a39/examples/3.%20MIDI%20Interfaces/Send-All-MIDI-Messages/Send-All-MIDI-Messages.ino#L64
 
 // general send_signal function to send a signal to the MIDI interface based on the signal type
 bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
@@ -34,20 +37,29 @@ bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
 
         // update the midi state to match the touch state
         midi_states[i] = touch_states[i];
-        return true;
     }
+
+    // signal sent successfully
+    return true;
 }
 
-// play a note on the MIDI interface
+// send MIDI pitch bend message to change the pitch of the note
+void send_pitch_bend(int analog_pitch) {
+    // map the pitch to the range of the pitch bend
+    // FIXME: look up the range of pitch bend, and how to map it
+    int pitch = map(pitch, 0, 1023, -8192, 8191);
+    midi.sendPitchBend(Channel_1, pitch);
+    midi.update();
+}
+
+// send a MIDI Note On message for the given note to trigger it
 void send_play_note(int note_idx) {
-    // send a MIDI Note On message for the given note to trigger it
     midi.sendNoteOn(notes[note_idx], velocity);  
     midi.update();
 }
 
-// stop a note on the MIDI interface
+// send a MIDI Note Off message to turn it off again
 void send_stop_note(int note_idx) {
-    // send a MIDI Note Off message to turn it off again
     midi.sendNoteOff(notes[note_idx], velocity);
     midi.update();
 }

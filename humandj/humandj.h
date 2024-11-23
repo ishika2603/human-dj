@@ -16,5 +16,5 @@ typedef enum {
   sSEND_SLIDER_CHANGE = 5,
 } state;
 
-
+bool touch_equals_midi();
 state updateFSM();

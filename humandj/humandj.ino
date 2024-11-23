@@ -1,11 +1,7 @@
 #include "humandj.h"
-#include <Control_Surface.h>
 
 
 int touchStatus[numPeople]; // store current touch status (0 or 1)
-
-HardwareSerialMIDI_Interface midi {Serial1, MIDI_BAUD};
-const uint8_t velocity = 127;
 
 static bool isReady, newTouch, stopTouch, signalSent;
 static int sliderChange[2]; 

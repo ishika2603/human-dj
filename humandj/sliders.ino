@@ -17,6 +17,5 @@ void update_fader_states(int* fader_states){
 
     fader_states[0] = pitch_dac;
     fader_states[1] = volume_dac;
-
 }
 

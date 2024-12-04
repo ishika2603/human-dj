@@ -18,11 +18,15 @@ void setup() {
   // touchVector = {0, 0, 0, 0};
   // midiVector = {0, 0, 0, 0};
   // faderVector = {0,0};
+  Serial.begin(9600);
+  Serial.println("setup done");
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  static state CURRENT_STATE = sINIT;
+  CURRENT_STATE = updateFSM(CURRENT_STATE);
+  delay(10);
 }
 
 bool touch_equals_midi() {
@@ -48,6 +52,7 @@ state updateFSM(state curState) {
         calibrate_voltage();
         update_fader_states(faderVector);
         isReady = true; 
+        nextState = sINIT;
       }
       else { // transition 1-2
         nextState = sWAIT_FOR_CHANGE;
@@ -58,6 +63,7 @@ state updateFSM(state curState) {
       if (touch_equals_midi()) { // transition 2-2
         update_touch_states(touchVector);
         update_fader_states(faderVector);
+        nextState = sWAIT_FOR_CHANGE;
       }
       else{
         signalSent = false;
@@ -70,8 +76,14 @@ state updateFSM(state curState) {
       }
       else{ // transition 3-3
         signalSent = send_signal(touchVector, midiVector, faderVector);
+        nextState = sSEND_SIGNAL;
       }
       break;
-    return nextState;
   }
+
+  // if (nextState != curState) {
+  //   Serial.print("New State: ");
+  //   Serial.println(nextState);
+  // }
+  return nextState;
 }

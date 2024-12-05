@@ -33,19 +33,27 @@ void update_touch_states(int* touch_states) {
     Updates the touch states based on who the DJ is currently touching / or not touching.
     returns: void
     */
-
+    int sensorValue;
     for (int i = 0; i < NUM_PEOPLE; i++) {
         // read 10 times for some person
         int CALIBRATION_TIMES = 500;
         int totalTouchValue = 0;
         for (int j = 0; j < CALIBRATION_TIMES; j++) {
-          totalTouchValue += analogRead(touchPins[i]);
+          sensorValue = analogRead(touchPins[i]);
+          totalTouchValue += sensorValue;
         }
+        Serial.print("Person");
+        Serial.print(i);
+        Serial.print(":"); 
+        Serial.print(sensorValue); 
+        Serial.print("\t");
+
         int touchValue = totalTouchValue / CALIBRATION_TIMES;
-      
-        if (i == 0) {
-          Serial.println(touchValue);
-        }
+        Serial.print("PersonAvg");
+        Serial.print(i);
+        Serial.print(":"); 
+        Serial.print(touchValue); 
+        Serial.print("\t");
 
         if (touchValue < touchThresholds[i]) {
             // Serial.print(i);
@@ -64,6 +72,7 @@ void update_touch_states(int* touch_states) {
             touch_states[i] = 0; // Update the state in the passed-in array
         }
     }
+    Serial.println();
 }
 
 

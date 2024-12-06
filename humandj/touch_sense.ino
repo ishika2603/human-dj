@@ -8,7 +8,7 @@ void calibrate_voltage() {
     Calculates an average voltage read for each human participant. 
     returns: void
     */
-    delay(100);
+    delay(1000);
     for (int i = 0; i < NUM_PEOPLE; i++) {
       int CALIBRATION_TIMES = 500;
       int totalValue = 0;
@@ -17,7 +17,17 @@ void calibrate_voltage() {
       }
 
       int initialValue = totalValue / CALIBRATION_TIMES;
-      touchThresholds[i] = initialValue - 60;// initialValue - 100; // Set threshold slightly below initial value
+      touchThresholds[i] = initialValue - 30;// initialValue - 100; // Set threshold slightly below initial value
+
+      // alternate method is to calculate based on variance/mean etc
+      // Compute mean and standard deviation
+      // float mean = (float)totalValue / CALIBRATION_TIMES;
+      // float variance = ((float)totalSquaredValue / CALIBRATION_TIMES) - (mean * mean);
+      // float stddev = sqrt(variance);
+
+      // // Set the threshold slightly below the mean to detect significant dips
+      // touchThresholds[i] = mean - (3 * stddev); // Adjust the multiplier as per sensitivity needs
+
       Serial.print("Calibrated threshold for Person ");
       Serial.print(i + 1);
       Serial.print(": ");
@@ -55,6 +65,12 @@ void update_touch_states(int* touch_states) {
         Serial.print(touchValue); 
         Serial.print("\t");
 
+        Serial.print("threshold");
+        Serial.print(i);
+        Serial.print(":"); 
+        Serial.print(touchThresholds[i]); 
+        Serial.print("\t");
+
         if (touchValue < touchThresholds[i]) {
             // Serial.print(i);
             // Serial.print(": ");
@@ -63,6 +79,9 @@ void update_touch_states(int* touch_states) {
             // Serial.println(touchThresholds[i]);
 
             touch_states[i] = 1; // Update the state in the passed-in array
+            // Serial.print("yes");
+            // Serial.print(":"); 
+            // Serial.print("\t");
 
             // Serial.print("Person ");
             // Serial.print(i + 1);
@@ -74,5 +93,3 @@ void update_touch_states(int* touch_states) {
     }
     Serial.println();
 }
-
-

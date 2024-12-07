@@ -12,8 +12,11 @@ void calibrate_voltage() {
     for (int i = 0; i < NUM_PEOPLE; i++) {
       int CALIBRATION_TIMES = 500;
       int totalValue = 0;
+      // int totalSquaredValue = 0;
       for (int j = 0; j < CALIBRATION_TIMES; j++) {
-        totalValue += analogRead(touchPins[i]);
+        int cur_val = analogRead(touchPins[i]);
+        totalValue += cur_val;
+        // totalSquaredValue += cur_val * cur_val;
       }
 
       int initialValue = totalValue / CALIBRATION_TIMES;

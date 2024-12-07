@@ -26,30 +26,13 @@ void setup() {
   pinMode(buttonPins[2], INPUT);
   pinMode(buttonPins[3], INPUT);
 
-  digitalWrite(buttonPins[0], LOW);
-  digitalWrite(buttonPins[1], LOW);
-  digitalWrite(buttonPins[2], LOW);
-  digitalWrite(buttonPins[3], LOW);
-  
-  for (int i = 0; i < 4; i++) {
-    ledStates[i] = HIGH;
-    digitalWrite(ledPins[i], ledStates[i]);
-    // delay()
-    // ledStates[i] = LOW;
-
-  }
-
-  Serial.println("LEDs DONE");
-
-  
-
   // attachInterrupt(digitalPinToInterrupt(buttonPins[0]), calibrate_touch_1, FALLING);
   // attachInterrupt(digitalPinToInterrupt(buttonPins[1]), calibrate_touch_2, RISING);
   // attachInterrupt(digitalPinToInterrupt(buttonPins[2]), calibrate_touch_3, RISING);
   // attachInterrupt(digitalPinToInterrupt(buttonPins[3]), calibrate_touch_4, RISING);
 
-  attachInterrupt(digitalPinToInterrupt(buttonPins[0]), calibrate_no_touch_1, FALLING);
-  attachInterrupt(digitalPinToInterrupt(buttonPins[1]), calibrate_no_touch_1, FALLING);
+  attachInterrupt(digitalPinToInterrupt(buttonPins[0]), calibrate_no_touch_1, RISING);
+  attachInterrupt(digitalPinToInterrupt(buttonPins[1]), calibrate_no_touch_1, RISING);
   attachInterrupt(digitalPinToInterrupt(buttonPins[2]), calibrate_no_touch_1, RISING);
   attachInterrupt(digitalPinToInterrupt(buttonPins[3]), calibrate_no_touch_1, RISING);
 
@@ -88,15 +71,25 @@ state updateFSM(state curState) {
       if (!isReady) { // transition 1-1
         memset(touchVector, 0, sizeof(touchVector));
         memset(midiVector, 0, sizeof(midiVector));
-
+        for (int i = 0; i < NUM_PEOPLE; i++) {
+          calibrate_voltage(i);
+        }
         init_MIDI();
-        calibrate_voltage();
         update_fader_states(faderVector);
         isReady = true; 
         nextState = sINIT;
       }
       else { // transition 1-2
         nextState = sWAIT_FOR_CHANGE;
+        for (int i = 0; i < NUM_PEOPLE; i++) {
+          ledStates[i] = HIGH;
+          digitalWrite(ledPins[i], ledStates[i]);
+        }
+        delay(500);
+        for (int i = 0; i < NUM_PEOPLE; i++) {
+          ledStates[i] = LOW;
+          digitalWrite(ledPins[i], ledStates[i]);
+        }
         // light_LED(); FIXME: add functionalit
       }
       break;

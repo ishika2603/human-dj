@@ -31,8 +31,12 @@ bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
         // send the signal based on the touch state
         if (touch_states[i] == 1) {
             send_play_note(i);
+            ledStates[i] = HIGH;
+            digitalWrite(ledPins[i], ledStates[i]);
         } else {
             send_stop_note(i);
+            ledStates[i] = LOW;
+            digitalWrite(ledPins[i], ledStates[i]);
         }
 
         // update the midi state to match the touch state

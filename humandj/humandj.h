@@ -38,7 +38,7 @@ state updateFSM(state curState);
 
 
 /* Capstone Components */
-void onboard_player(int* touch_states, int* midi_states, int* fader_states);
+bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);
 
 int onboardDevice = 0;
-void (*outputFunctions[])(void) = {send_signal,  onboard_player};
+void (*outputFunctions[])(void) = {send_signal, send_onboard_note};

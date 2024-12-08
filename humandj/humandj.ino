@@ -26,24 +26,12 @@ void setup() {
   pinMode(buttonPins[2], INPUT);
   pinMode(buttonPins[3], INPUT);
 
-  // attachInterrupt(digitalPinToInterrupt(buttonPins[0]), calibrate_touch_1, FALLING);
-  // attachInterrupt(digitalPinToInterrupt(buttonPins[1]), calibrate_touch_2, RISING);
-  // attachInterrupt(digitalPinToInterrupt(buttonPins[2]), calibrate_touch_3, RISING);
-  // attachInterrupt(digitalPinToInterrupt(buttonPins[3]), calibrate_touch_4, RISING);
-
   attachInterrupt(digitalPinToInterrupt(buttonPins[0]), calibrate_no_touch_1, RISING);
-  attachInterrupt(digitalPinToInterrupt(buttonPins[1]), calibrate_no_touch_1, RISING);
-  attachInterrupt(digitalPinToInterrupt(buttonPins[2]), calibrate_no_touch_1, RISING);
-  attachInterrupt(digitalPinToInterrupt(buttonPins[3]), calibrate_no_touch_1, RISING);
-
-  // does not compile:
-  // touchVector = {0, 0, 0, 0};
-  // midiVector = {0, 0, 0, 0};
-  // faderVector = {0,0};
+  attachInterrupt(digitalPinToInterrupt(buttonPins[1]), calibrate_no_touch_2, RISING);
+  attachInterrupt(digitalPinToInterrupt(buttonPins[2]), calibrate_no_touch_3, RISING);
+  attachInterrupt(digitalPinToInterrupt(buttonPins[3]), calibrate_no_touch_4, RISING);
   
   Serial.println("setup done");
-
-  
 }
 
 void loop() {
@@ -109,7 +97,7 @@ state updateFSM(state curState) {
         nextState = sWAIT_FOR_CHANGE;
       }
       else{ // transition 3-3
-        signalSent = send_signal(touchVector, midiVector, faderVector);
+        signalSent = (*outputFunctions[onboardDevice])(touchVector, midiVector, faderVector);
         nextState = sSEND_SIGNAL;
       }
       break;

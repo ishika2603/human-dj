@@ -1,3 +1,4 @@
+#include <"analogWave.h">
 /*
 * Library to convert MIDI notes to waveforms and send to onboard player.
 * Authored by Eva and Komron for HumanDJ capstone component.

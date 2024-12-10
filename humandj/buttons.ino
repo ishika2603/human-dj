@@ -87,8 +87,8 @@ attachInterrupt(digitalPinToInterrupt(buttonPin), calibrate_touch, RISING);
 TODO: add following line to main setup 
 attachInterrupt(digitalPinToInterrupt(buttonPin), switch_player, RISING);
 */
-void switch_player() {
-  // switches a variable indicating where to send the signal on the board.
-  onboardDevice = !onboardDevice;
-}
+// void switch_player() {
+//   // switches a variable indicating where to send the signal on the board.
+//   onboardDevice = !onboardDevice;
+// }
 

@@ -95,7 +95,11 @@ state updateFSM(state curState) {
         nextState = sWAIT_FOR_CHANGE;
       }
       else{ // transition 3-3
-        signalSent = send_signal(touchVector, midiVector, faderVector);// (*outputFunctions[onboardDevice])(touchVector, midiVector, faderVector);
+        #ifdef ONBOARD
+          signalSent = send_onboard_note(touchVector, midiVector, faderVector);
+        #else
+          signalSent = send_signal(touchVector, midiVector, faderVector);
+        #endif
         nextState = sSEND_SIGNAL;
       }
       break;

@@ -73,4 +73,5 @@ void runUnitTests() {
     Serial.println("Running all unit tests...");
     test_send_signal();
     test_send_onboard_note();
+    test_update_fader_states();
 }

@@ -60,6 +60,8 @@ void runUnitTests();
 
 // music.ino
 void test_send_signal();
+
+//sliders.ino
 void test_update_fader_states();
 
 // onboard_player.ino

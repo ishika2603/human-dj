@@ -33,8 +33,10 @@ void setup() {
   
   #ifdef TESTING
 
-  testAllTests(); // for fsm testing
+  // estAllTests(); // for fsm testing
   // runUnitTests(); // for unit testing
+  Serial.println("Running tests");
+  test_send_signal();
   #else
 
   Serial.println("setup done");

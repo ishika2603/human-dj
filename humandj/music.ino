@@ -44,6 +44,8 @@ bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
     return true;
 }
 
+#ifndef TESTING
+
 // send MIDI pitch bend message to change the pitch of the note
 void send_pitch_bend(int analog_pitch) {
     // map the pitch to the range of the pitch bend
@@ -64,3 +66,85 @@ void send_stop_note(int note_idx) {
     midi.sendNoteOff(notes[note_idx], velocity);
     midi.update();
 }
+
+
+/* TESTING MODULE */
+#else
+
+/* global variables for mock functions */
+int MOCK_NOTES[4] = {1, 2, 3, 4};
+int PLAY_VECTOR[4] = {0, 0, 0, 0};
+
+/* mock functions */
+void send_pitch_bend(int analog_pitch) {
+    // do nothing
+}
+
+// appends which note it played to the play vector
+void send_play_note(int note_idx) {
+    for (int i = 0; i < 4; i++) {
+        if (PLAY_VECTOR[i] == 0) {
+            PLAY_VECTOR[i] = MOCK_NOTES[note_idx];
+            break;
+        }
+    }
+}
+
+// appends which note it stopped playing (indicated by a negative value) to the play vector
+void send_stop_note(int note_idx) {
+    for (int i = 0; i < 4; i++) {
+        if (PLAY_VECTOR[i] == 0) {
+            PLAY_VECTOR[i] = -1 * MOCK_NOTES[note_idx];
+            break;
+        }
+    }
+}
+
+/* test functions */
+void test_send_signal() {
+
+    int touch_states[4] = {0, 0, 0, 0};
+    int midi_states[4] = {0, 0, 0, 0};
+    int fader_states[2] = {0, 0};
+
+    // TEST 1: play no notes
+    Serial.println("[music.ino] TEST 1: play no notes");
+    send_signal(touch_states, midi_states, fader_states);
+    for (int i = 0; i < 4; i++) { assertBool(PLAY_VECTOR[i] == 0); }
+    memset(touch_states, 0, sizeof(touch_states)); // reset states
+    memset(midi_states, 0, sizeof(midi_states));
+    memset(PLAY_VECTOR, 0, sizeof(PLAY_VECTOR));
+
+    // TEST 2: play all notes
+    Serial.println("[music.ino] TEST 2: play all notes");
+    for (int i = 0; i < 4; i++) { touch_states[i] = 1; } // setup touch states
+    send_signal(touch_states, midi_states, fader_states);
+    for (int i = 0; i < 4; i++) { assertBool(PLAY_VECTOR[i] == MOCK_NOTES[i]); }
+    memset(touch_states, 0, sizeof(touch_states)); // reset states
+    memset(midi_states, 0, sizeof(midi_states));
+    memset(PLAY_VECTOR, 0, sizeof(PLAY_VECTOR));
+
+    // TEST 3: stop playing all notes
+    Serial.println("[music.ino] TEST 3: stop playing all notes");
+    for (int i = 0; i < 4; i++) { midi_states[i] = 1; } // setup midi states
+    send_signal(touch_states, midi_states, fader_states);
+    for (int i = 0; i < 4; i++) { assertBool(PLAY_VECTOR[i] == -1 * MOCK_NOTES[i]); }
+    memset(touch_states, 0, sizeof(touch_states)); // reset states
+    memset(midi_states, 0, sizeof(midi_states));
+    memset(PLAY_VECTOR, 0, sizeof(PLAY_VECTOR));
+
+    // TEST 4: play some notes
+    Serial.println("[music.ino] TEST 4: play some notes");
+    for (int i = 0; i < 4; i++) { touch_states[i] = i % 2; } // setup touch states
+    send_signal(touch_states, midi_states, fader_states);
+    assertBool(PLAY_VECTOR[0] == MOCK_NOTES[1]);
+    assertBool(PLAY_VECTOR[1] == MOCK_NOTES[3]);
+    memset(touch_states, 0, sizeof(touch_states)); // reset states
+    memset(midi_states, 0, sizeof(midi_states));
+    memset(PLAY_VECTOR, 0, sizeof(PLAY_VECTOR));
+
+    Serial.println("[music.ino] all send_signal unit tests passed!");
+}
+
+
+#endif

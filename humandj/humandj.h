@@ -3,7 +3,7 @@ const int NUM_PEOPLE = sizeof(touchPins) / sizeof(touchPins[0]);
 int touchThresholds[NUM_PEOPLE]; // store dynamic thresholds for each pin
 
 // uncomment the following for testing
-// #define TESTING
+#define TESTING
 
 // ISR related
 const int buttonPins[] = {D3, D4, D5, D6};
@@ -38,8 +38,19 @@ void update_fader_states(int* fader_states);
 bool touch_equals_midi();
 state updateFSM(state curState, int* touchVector, int* faderVector);
 
-/* Capstone Components: */
+/* Capstone */
 // uncomment the following line to use the onboard player
 // #define ONBOARD
 void init_onboard_player();
 bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);
+
+/* Testing */
+#ifdef TESTING
+
+// humandj_tests.ino
+void assertBool(bool b);
+
+// music.ino
+void test_send_signal();
+
+#endif

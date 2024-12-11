@@ -19,6 +19,16 @@ char* s2str(state s) {
   }
 }
 
+/*
+ * Helper function for asserting values
+ */
+void assertBool(bool b) {
+  if (!b) {
+    Serial.println("Assertion failed!");
+    while (true); // hang if assertion fails
+  }
+}
+
 
 
 

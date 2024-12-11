@@ -35,7 +35,6 @@ void update_fader_states(int* fader_states);
 bool touch_equals_midi();
 state updateFSM(state curState);
 
-
 /* Capstone Components */
 void init_onboard_player();
 bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);

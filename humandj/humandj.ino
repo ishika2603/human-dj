@@ -83,7 +83,6 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
           ledStates[i] = LOW;
           digitalWrite(ledPins[i], ledStates[i]);
         }
-        // light_LED(); FIXME: add functionalit
       }
       break;
     case sWAIT_FOR_CHANGE:

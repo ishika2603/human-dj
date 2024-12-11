@@ -1,7 +1,6 @@
 /*
  * For human dj fsm testing
  */
-// #include "tests.h"
 
 /*        
  * Helper function for printing states
@@ -29,42 +28,58 @@ void assertBool(bool b) {
   }
 }
 
+/*
+ * Type for the inputs to the FSM
+ */
+typedef struct {
+    int touch_states[NUM_PEOPLE];
+    int fader_states[2];
+} state_inputs;
+
+/*
+ * Type for the variables of the FSM
+ */
+typedef struct {
+    int midi_states[NUM_PEOPLE];
+    bool signal_sent;
+} state_vars;
 
 
-// /*
-// TODO
-// */
-// bool testTransition(state startState,
-//                      state endState,
-//                      state_inputs testStateInputs, 
-//                      state_vars startStateVars,
-//                      state_vars endStateVars,
-//                      bool verbos) {
+/*
+ * Test for FSM transitions
+ */
+bool testTransition(state startState,
+                    state endState,
+                    state_inputs testStateInputs, 
+                    state_vars startStateVars,
+                    state_vars endStateVars) {
+    // lol
 
-// }
+}
 
-// /*
-//  * TODO: add in test cases
-//  */
+const int numTests = 0
+const state testStatesIn[numTests] = {};
+const state testStatesOut[numTests] = {};
+const state_inputs testInputs[numTests] = {};
+const state_vars testVarsIn[numTests] = {};
+const state_vars testVarsOut[numTests] = {};
 
-// // const int numTests = 23;
 
-
-// /*
-//  * Runs through all the FSM tests
-//  */
-// bool testAllTests() {
-//   for (int i = 0; i < numTests; i++) {
-//     Serial.print("Running test ");
-//     Serial.println(i);
-//     if (!testTransition(testStatesIn[i], testStatesOut[i], testInputs[i], testVarsIn[i], testVarsOut[i], true)) {
-//       return false;
-//     }
-//     Serial.println();
-//   }
-//   Serial.println("All tests passed!");
-//   return true;
-// }
+/*
+ * Runs through all the FSM tests
+ */
+bool testAllTests() {
+  for (int i = 0; i < numTests; i++) {
+    Serial.print("Running test ");
+    Serial.println(i);
+    if (!testTransition(testStatesIn[i], testStatesOut[i], testInputs[i], testVarsIn[i], testVarsOut[i], true)) {
+      return false;
+    }
+    Serial.println();
+  }
+  Serial.println("All tests passed!");
+  return true;
+}
 
 /*
  * Runs all the unit tests

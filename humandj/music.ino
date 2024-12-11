@@ -79,7 +79,6 @@ void send_pitch_bend(int analog_pitch) {
     // do nothing
 }
 
-// appends which note it played to the play vector
 void send_play_note(int note_idx) {
     for (int i = 0; i < 4; i++) {
         if (PLAY_VECTOR[i] == 0) {
@@ -89,7 +88,6 @@ void send_play_note(int note_idx) {
     }
 }
 
-// appends which note it stopped playing (indicated by a negative value) to the play vector
 void send_stop_note(int note_idx) {
     for (int i = 0; i < 4; i++) {
         if (PLAY_VECTOR[i] == 0) {

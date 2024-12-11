@@ -49,8 +49,12 @@ bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);
 
 // humandj_tests.ino
 void assertBool(bool b);
+void runUnitTests();
 
 // music.ino
 void test_send_signal();
+
+// onboard_player.ino
+void test_send_onboard_note();
 
 #endif

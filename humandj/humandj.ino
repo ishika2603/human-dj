@@ -34,9 +34,8 @@ void setup() {
   #ifdef TESTING
 
   // estAllTests(); // for fsm testing
-  // runUnitTests(); // for unit testing
-  Serial.println("Running tests");
-  test_send_signal();
+  runUnitTests();
+
   #else
 
   Serial.println("setup done");

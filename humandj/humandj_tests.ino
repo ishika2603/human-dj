@@ -31,8 +31,6 @@ void assertBool(bool b) {
 
 
 
-
-
 // /*
 // TODO
 // */
@@ -53,7 +51,7 @@ void assertBool(bool b) {
 
 
 // /*
-//  * Runs through all the test cases defined above
+//  * Runs through all the FSM tests
 //  */
 // bool testAllTests() {
 //   for (int i = 0; i < numTests; i++) {
@@ -67,3 +65,12 @@ void assertBool(bool b) {
 //   Serial.println("All tests passed!");
 //   return true;
 // }
+
+/*
+ * Runs all the unit tests
+ */
+void runUnitTests() {
+    Serial.println("Running all unit tests...");
+    test_send_signal();
+    test_send_onboard_note();
+}

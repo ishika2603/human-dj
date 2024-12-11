@@ -1,12 +1,12 @@
 // uncomment the following for testing
-#define TESTING
+// #define TESTING
 
 // uncomment the following for debugging information
 // #define DEBUG
 
 // pin definitions
 const int touchPins[] = {A1, A2, A4, A5};
-const int buttonPin = D3;
+const int buttonPin = D2;
 const int ledPins[] = {D12, D13, D11, D10};
 
 const int VOLUME_PIN = A0;
@@ -45,9 +45,15 @@ void update_fader_states(int* fader_states);
 bool touch_equals_midi();
 state updateFSM(state curState, int* touchVector, int* faderVector);
 
+//buttons.ino
+void recalibrate_humans();
+void switch_onboard_player();
+
 /* Capstone */
 // uncomment the following line to use the onboard player
 // #define ONBOARD
+int onboardPin = D3;
+bool ONBOARD = false;
 void init_onboard_player();
 bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);
 

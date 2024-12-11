@@ -17,9 +17,6 @@ void init_MIDI() {
     midi.begin();
 }
 
-// this seems useful
-// https://github.com/tttapa/Control-Surface/blob/317e36a6311df88f14a4d7053815d7a187766a39/examples/3.%20MIDI%20Interfaces/Send-All-MIDI-Messages/Send-All-MIDI-Messages.ino#L64
-
 // general send_signal function to send a signal to the MIDI interface based on the signal type
 bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
     // check for which people the touch states are different from midi states

@@ -1,9 +1,7 @@
 /*
  * For human dj fsm testing
  */
-
- #include "humandj.h"
- #include "tests.h"
+// #include "tests.h"
 
 /*        
  * Helper function for printing states
@@ -14,7 +12,7 @@ char* s2str(state s) {
         return "(1) INIT";
     case sWAIT_FOR_CHANGE:
         return "(2) WAIT_FOR_CHANGET";
-    case sSEND_SIGNALE:
+    case sSEND_SIGNAL:
         return "(3) sSEND_SIGNAL";
     default:
         return "???";

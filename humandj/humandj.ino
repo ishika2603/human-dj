@@ -47,7 +47,7 @@ void loop() {
   #ifndef TESTING
 
   static state CURRENT_STATE = sINIT;
-  CURRENT_STATE = updateFSM(CURRENT_STATE, touchVector);
+  CURRENT_STATE = updateFSM(CURRENT_STATE, touchVector, faderVector);
   delay(10);
   
   #endif

@@ -2,7 +2,7 @@ const int touchPins[] = {A1, A2, A4, A5};
 const int NUM_PEOPLE = sizeof(touchPins) / sizeof(touchPins[0]);
 int touchThresholds[NUM_PEOPLE]; // store dynamic thresholds for each pin
 
-// uncomment for testing
+// uncomment the following for testing
 // #define TESTING
 
 // ISR related
@@ -36,12 +36,10 @@ void calibrate_voltage();
 void update_fader_states(int* fader_states);
 
 bool touch_equals_midi();
-state updateFSM(state curState);
+state updateFSM(state curState, int* touchVector, int* faderVector);
 
-/* Capstone Components */
+/* Capstone Components: */
+// uncomment the following line to use the onboard player
+// #define ONBOARD
 void init_onboard_player();
 bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);
-#define ONBOARD
-
-// int onboardDevice = 0;
-// void (*outputFunctions[])(void) = {send_signal, send_onboard_note};

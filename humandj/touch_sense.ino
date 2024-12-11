@@ -39,7 +39,6 @@ void calibrate_voltage() {
     
     }
     Serial.println();
-
 }
 
 void update_touch_states(int* touch_states) {

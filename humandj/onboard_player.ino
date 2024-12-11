@@ -12,11 +12,16 @@ const int PIANO_NOTES[4] = {70, 75, 80, 85}; //{60, 62, 64, 65};
 const int CENTRAL_NOTE = 69;
 const int CENTRAL_FREQUENCY = 440;
 
+int pitch_bend = 0;
+
+// int global_frequency = 0;
+
 void init_onboard_player() {
   wave.sine(10);
 }
 
 bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states) {
+  onboard_pitch_bend(fader_states[0]);
   for (int i = 0; i < NUM_PEOPLE; i++) {
     // if touch state is same, skip
     if (touch_states[i] == midi_states[i]) { continue; }
@@ -40,6 +45,10 @@ bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states) {
   return true;
 }
 
+void onboard_pitch_bend(int analog_pitch) {
+    pitch_bend = map(analog_pitch, 0, 1023, 0, 200);
+}
+
 void play_onboard_note(int note_idx) {
   // calculate the frequency
   // https://en.wikipedia.org/wiki/MIDI_tuning_standard
@@ -47,7 +56,7 @@ void play_onboard_note(int note_idx) {
   int note = PIANO_NOTES[note_idx];
   float frequency = CENTRAL_FREQUENCY * pow(2, ((note - CENTRAL_NOTE) / 12.0));
   // play the note
-  wave.freq(int(frequency));
+  wave.freq(int(frequency) + pitch_bend);
 }
 
 void stop_onboard_note(int note_idx) {

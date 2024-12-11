@@ -10,8 +10,8 @@ const int buttonPins[] = {D3, D4, D5, D6};
 const int ledPins[] = {D12, D13, D11, D10};
 int ledStates[] = {LOW, LOW, LOW, LOW};
 
-const int PITCH_PIN = A0;
-const int VOLUME_PIN = A3;
+const int VOLUME_PIN = A0;
+const int PITCH_PIN = A3;
 
 /*
  * Type (enum and struct) definitions for state, orientation,

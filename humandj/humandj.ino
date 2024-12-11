@@ -5,7 +5,6 @@ static int faderVector[2];
 static int touchVector[NUM_PEOPLE];
 static int midiVector[NUM_PEOPLE];
 
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -48,7 +47,7 @@ void loop() {
   #ifndef TESTING
 
   static state CURRENT_STATE = sINIT;
-  CURRENT_STATE = updateFSM(CURRENT_STATE);
+  CURRENT_STATE = updateFSM(CURRENT_STATE, touchVector);
   delay(10);
   
   #endif
@@ -64,7 +63,7 @@ bool touch_equals_midi() {
 }
 
 
-state updateFSM(state curState) {
+state updateFSM(state curState, int* touchVector, int* faderVector) {
   state nextState;
 
   switch(curState) {

@@ -1,6 +1,6 @@
 
 /*
- * TODO: A struct to keep all three state inputs in one place
+ * TODO: A struct to keep all state inputs in one place
  */
 typedef struct {
 
@@ -13,3 +13,11 @@ typedef struct {
 typedef struct {
   
 } state_vars;
+
+bool testTransition(state startState,
+                     state endState,
+                     state_inputs testStateInputs, 
+                     state_vars startStateVars,
+                     state_vars endStateVars,
+                     bool verbos);
+

@@ -74,4 +74,6 @@ void runUnitTests() {
     test_send_signal();
     test_send_onboard_note();
     test_update_fader_states();
+    test_calibrate_voltage();
+    test_update_touch_states();
 }

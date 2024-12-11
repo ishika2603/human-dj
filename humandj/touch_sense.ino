@@ -3,7 +3,6 @@
 * Used within FSM model in humandj.ino to update/initialize variables.
 */
 
-
 #ifndef TESTING
 
 int helperAnalogRead(int pin){

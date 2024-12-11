@@ -23,7 +23,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(onboardPin), switch_onboard_player, RISING);
   
   #ifdef TESTING
-  // estAllTests(); // for fsm testing
+  // testAllTests(); // for fsm testing
   runUnitTests();
   #else
 
@@ -104,10 +104,13 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
       }
       break;
   }
+  
+  #ifdef DEBUG
+  if (nextState != curState) {
+    Serial.print("New State: ");
+    Serial.println(nextState);
+  }
+  #endif
 
-  // if (nextState != curState) {
-  //   Serial.print("New State: ");
-  //   Serial.println(nextState);
-  // }
   return nextState;
 }

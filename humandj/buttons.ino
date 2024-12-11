@@ -17,9 +17,6 @@ void calibrate_no_touch() {
   // call calibrate voltage with current values
   // assumes that calibrate_voltage takes in a boolean indicating whether this is the contact or no contact signal
   calibrate_voltage();
-  // Serial.println("no touch 1");
-  // digitalWrite(ledPins[0], !ledStates[0]);
-  // ledStates[0] = !ledStates[0];
 }
 
 // void calibrate_no_touch_2() {

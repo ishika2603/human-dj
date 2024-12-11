@@ -49,7 +49,6 @@ bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
 // send MIDI pitch bend message to change the pitch of the note
 void send_pitch_bend(int analog_pitch) {
     // map the pitch to the range of the pitch bend
-    // FIXME: look up the range of pitch bend, and how to map it
     int pitch = map(analog_pitch, 0, 1023, -8192, 0);
     midi.sendPitchBend(Channel_1, pitch);
     midi.update();
@@ -102,7 +101,6 @@ void send_stop_note(int note_idx) {
 
 /* test functions */
 void test_send_signal() {
-
     int touch_states[4] = {0, 0, 0, 0};
     int midi_states[4] = {0, 0, 0, 0};
     int fader_states[2] = {0, 0};
@@ -139,6 +137,28 @@ void test_send_signal() {
     send_signal(touch_states, midi_states, fader_states);
     assertBool(PLAY_VECTOR[0] == MOCK_NOTES[1]);
     assertBool(PLAY_VECTOR[1] == MOCK_NOTES[3]);
+    memset(touch_states, 0, sizeof(touch_states)); // reset states
+    memset(midi_states, 0, sizeof(midi_states));
+    memset(PLAY_VECTOR, 0, sizeof(PLAY_VECTOR));
+
+    // TEST 5: stop playing some notes
+    Serial.println("[music.ino] TEST 5: stop playing some notes");
+    for (int i = 0; i < 4; i++) { midi_states[i] = i % 2; } // setup midi states
+    send_signal(touch_states, midi_states, fader_states);
+    assertBool(PLAY_VECTOR[0] == -1 * MOCK_NOTES[1]);
+    assertBool(PLAY_VECTOR[1] == -1 * MOCK_NOTES[3]);
+    memset(touch_states, 0, sizeof(touch_states)); // reset states
+    memset(midi_states, 0, sizeof(midi_states));
+    memset(PLAY_VECTOR, 0, sizeof(PLAY_VECTOR));
+
+    // TEST 6: play some notes and stop playing some notes
+    Serial.println("[music.ino] TEST 6: play some notes and stop playing some notes");
+    touch_states[0] = 1; touch_states[1] = 1; midi_states[2] = 1; midi_states[3] = 1; // setup states
+    send_signal(touch_states, midi_states, fader_states);
+    assertBool(PLAY_VECTOR[0] == MOCK_NOTES[0]);
+    assertBool(PLAY_VECTOR[1] == MOCK_NOTES[1]);
+    assertBool(PLAY_VECTOR[2] == -1 * MOCK_NOTES[2]);
+    assertBool(PLAY_VECTOR[3] == -1 * MOCK_NOTES[3]);
     memset(touch_states, 0, sizeof(touch_states)); // reset states
     memset(midi_states, 0, sizeof(midi_states));
     memset(PLAY_VECTOR, 0, sizeof(PLAY_VECTOR));

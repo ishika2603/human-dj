@@ -31,14 +31,27 @@ void setup() {
   // attachInterrupt(digitalPinToInterrupt(buttonPins[2]), calibrate_no_touch_3, RISING);
   // attachInterrupt(digitalPinToInterrupt(buttonPins[3]), calibrate_no_touch_4, RISING);
   
+  
+  #ifdef TESTING
+
+  testAllTests(); // for fsm testing
+  // runUnitTests(); // for unit testing
+  #else
+
   Serial.println("setup done");
+  
+  #endif
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  #ifndef TESTING
+
   static state CURRENT_STATE = sINIT;
   CURRENT_STATE = updateFSM(CURRENT_STATE);
   delay(10);
+  
+  #endif
 }
 
 bool touch_equals_midi() {

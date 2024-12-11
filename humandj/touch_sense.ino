@@ -1,11 +1,13 @@
 /*
-touch sensing module to calibrate voltage thresholds and update touch states whenever a touch is detected. 
-Used within FSM model in humandj.ino to update/initialize variables.
+* touch sensing module to calibrate voltage thresholds and update touch states whenever a touch is detected. 
+* Used within FSM model in humandj.ino to update/initialize variables.
 */
 
 void calibrate_voltage() {
     /*
-    Calculates an average voltage read for each human participant. 
+    Calculates an average baseline voltage threshold for each human participant. 
+    Uses a moving average value, for better sensitivity a variance method also included.
+
     returns: void
     */
     for (int i = 0; i < NUM_PEOPLE; i++) {
@@ -19,7 +21,7 @@ void calibrate_voltage() {
       }
 
       int initialValue = totalValue / CALIBRATION_TIMES;
-      touchThresholds[i] = initialValue - 120;// initialValue - 100; // Set threshold slightly below initial value
+      touchThresholds[i] = initialValue - 120; // Set threshold slightly below initial value
 
       // alternate method is to calculate based on variance/mean etc
       // Compute mean and standard deviation
@@ -54,13 +56,10 @@ void update_touch_states(int* touch_states) {
           sensorValue = analogRead(touchPins[i]);
           totalTouchValue += sensorValue;
         }
-        // Serial.print("Person");
-        // Serial.print(i);
-        // Serial.print(":"); 
-        // Serial.print(sensorValue); 
-        // Serial.print("\t");
 
         int touchValue = totalTouchValue / CALIBRATION_TIMES;
+
+        // Open Serial Plotter to view these values real-time, useful for debugging
         Serial.print("PersonAvg");
         Serial.print(i);
         Serial.print(":"); 
@@ -74,21 +73,7 @@ void update_touch_states(int* touch_states) {
         Serial.print("\t");
 
         if (touchValue < touchThresholds[i]) {
-            // Serial.print(i);
-            // Serial.print(": ");
-            // Serial.print(touchValue);
-            // Serial.print(" ");
-            // Serial.println(touchThresholds[i]);
-
             touch_states[i] = 1; // Update the state in the passed-in array
-            // Serial.print("yes");
-            // Serial.print(":"); 
-            // Serial.print("\t");
-
-            // Serial.print("Person ");
-            // Serial.print(i + 1);
-            // Serial.println(" detected!"); // Print message if touch is detected
-
         } else {
             touch_states[i] = 0; // Update the state in the passed-in array
         }

@@ -1,22 +1,27 @@
-// /*
-//  * Used for human dj testing
-//  */
+/*
+ * For human dj fsm testing
+ */
 
-// /*
-//  * TODO: A struct to keep all three state inputs in one place
-//  */
-// typedef struct {
+ #include "humandj.h"
+ #include "tests.h"
 
-// } state_inputs;
+/*        
+ * Helper function for printing states
+ */
+char* s2str(state s) {
+  switch(s) {
+    case sINIT:
+        return "(1) INIT";
+    case sWAIT_FOR_CHANGE:
+        return "(2) WAIT_FOR_CHANGET";
+    case sSEND_SIGNALE:
+        return "(3) sSEND_SIGNAL";
+    default:
+        return "???";
+  }
+}
 
 
-
-// /*
-//  * TODO: A struct to keep all state variables in one place
-//  */
-// typedef struct {
-  
-// } state_vars;
 
 // bool testTransition(state startState,
 //                      state endState,
@@ -24,21 +29,8 @@
 //                      state_vars startStateVars,
 //                      state_vars endStateVars,
 //                      bool verbos);
-// /*        
-//  * Helper function for printing states
-//  */
-// char* s2str(state s) {
-//   switch(s) {
-//     case sINIT:
-//         return "(1) INIT";
-//     case sWAIT_FOR_CHANGE:
-//         return "(2) WAIT_FOR_CHANGET";
-//     case sSEND_SIGNALE:
-//         return "(3) sSEND_SIGNAL";
-//     default:
-//         return "???";
-//   }
-// }
+
+
 
 // /*
 // TODO

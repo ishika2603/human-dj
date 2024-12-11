@@ -2,6 +2,9 @@ const int touchPins[] = {A1, A2, A4, A5};
 const int NUM_PEOPLE = sizeof(touchPins) / sizeof(touchPins[0]);
 int touchThresholds[NUM_PEOPLE]; // store dynamic thresholds for each pin
 
+// uncomment for testing
+// #define TESTING
+
 // ISR related
 const int buttonPins[] = {D3, D4, D5, D6};
 const int ledPins[] = {D12, D13, D11, D10};

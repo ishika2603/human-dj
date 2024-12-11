@@ -47,7 +47,6 @@ bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states) {
 
 void onboard_pitch_bend(int analog_pitch) {
     pitch_bend = map(analog_pitch, 0, 1023, 0, 200);
-    
 }
 
 void play_onboard_note(int note_idx) {

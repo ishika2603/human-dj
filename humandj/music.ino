@@ -20,13 +20,13 @@ void init_MIDI() {
 // general send_signal function to send a signal to the MIDI interface based on the signal type
 bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
     // check for which people the touch states are different from midi states
-    send_pitch_bend(fader_states[0]);
     for (int i = 0; i < NUM_PEOPLE; i++) {
         // if touch state is same, skip
         if (touch_states[i] == midi_states[i]) { continue; }
 
         // send the signal based on the touch state
         if (touch_states[i] == 1) {
+            send_pitch_bend(fader_states[0]);
             send_play_note(i);
             ledStates[i] = HIGH;
             digitalWrite(ledPins[i], ledStates[i]);
@@ -48,7 +48,7 @@ bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
 void send_pitch_bend(int analog_pitch) {
     // map the pitch to the range of the pitch bend
     // FIXME: look up the range of pitch bend, and how to map it
-    int pitch = map(pitch, 0, 1023, -8192, 8191);
+    int pitch = map(analog_pitch, 0, 1023, -8192, 0);
     midi.sendPitchBend(Channel_1, pitch);
     midi.update();
 }

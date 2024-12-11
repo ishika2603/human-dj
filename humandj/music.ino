@@ -12,12 +12,16 @@ HardwareSerialMIDI_Interface midi {Serial1, MIDI_BAUD};
 MIDIAddress notes[4] = {MIDI_Notes::C[4], MIDI_Notes::D[4], MIDI_Notes::E[4], MIDI_Notes::F[4]};
 const uint8_t velocity = 127;
 
-// initialize the MIDI interface
+/*
+ * initialize the MIDI interface
+ */
 void init_MIDI() {
   midi.begin();
 }
 
-// general send_signal function to send a signal to the MIDI interface based on the signal type
+/*
+ * General send_signal function to send a signal to the MIDI interface based on the signal type
+ */
 bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
     // check for which people the touch states are different from midi states
     for (int i = 0; i < NUM_PEOPLE; i++) {
@@ -46,7 +50,9 @@ bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
 
 #ifndef TESTING
 
-// send MIDI pitch bend message to change the pitch of the note
+/*
+ * send MIDI pitch bend message to change the pitch of the note
+ */
 void send_pitch_bend(int analog_pitch) {
     // map the pitch to the range of the pitch bend
     int pitch = map(analog_pitch, 0, 1023, -8192, 0);
@@ -54,13 +60,17 @@ void send_pitch_bend(int analog_pitch) {
     midi.update();
 }
 
-// send a MIDI Note On message for the given note to trigger it
+/*
+ * send a MIDI Note On message for the given note to trigger it
+ */
 void send_play_note(int note_idx) {
     midi.sendNoteOn(notes[note_idx], velocity);  
     midi.update();
 }
 
-// send a MIDI Note Off message to turn it off again
+/*
+ * send a MIDI Note Off message to turn it off again
+ */
 void send_stop_note(int note_idx) {
     midi.sendNoteOff(notes[note_idx], velocity);
     midi.update();

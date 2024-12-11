@@ -60,7 +60,11 @@ state updateFSM(state curState) {
         memset(touchVector, 0, sizeof(touchVector));
         memset(midiVector, 0, sizeof(midiVector));
         calibrate_voltage();
-        init_MIDI();
+        #ifdef ONBOARD
+          init_onboard_player();
+        #else 
+          init_MIDI();
+        #endif
         update_fader_states(faderVector);
         isReady = true; 
         nextState = sINIT;

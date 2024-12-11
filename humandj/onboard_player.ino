@@ -7,9 +7,10 @@
 analogWave wave(DAC);
 
 // MIDI notes for the base notes: C, D, E, F
-int PIANO_NOTES[4] = {60, 62, 64, 65};
-int CENTRAL_NOTE = 69;
-int CENTRAL_FREQUENCY = 440;
+const int PIANO_NOTES[4] = {70, 75, 80, 85}; //{60, 62, 64, 65};
+
+const int CENTRAL_NOTE = 69;
+const int CENTRAL_FREQUENCY = 440;
 
 void init_onboard_player() {
   wave.sine(10);
@@ -45,7 +46,6 @@ void play_onboard_note(int note_idx) {
   // Tom Igoe (https://docs.arduino.cc/tutorials/uno-r4-wifi/dac/)
   int note = PIANO_NOTES[note_idx];
   float frequency = CENTRAL_FREQUENCY * pow(2, ((note - CENTRAL_NOTE) / 12.0));
-
   // play the note
   wave.freq(int(frequency));
 }

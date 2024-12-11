@@ -37,6 +37,7 @@ state updateFSM(state curState);
 
 
 /* Capstone Components */
+void init_onboard_player();
 bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);
 #define ONBOARD
 

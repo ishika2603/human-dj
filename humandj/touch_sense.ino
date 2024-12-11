@@ -59,17 +59,17 @@ void update_touch_states(int* touch_states) {
         int touchValue = totalTouchValue / CALIBRATION_TIMES;
 
         // Open Serial Plotter to view these values real-time, useful for debugging
-        // Serial.print("PersonAvg");
-        // Serial.print(i);
-        // Serial.print(":"); 
-        // Serial.print(touchValue); 
-        // Serial.print("\t");
+        Serial.print("PersonAvg");
+        Serial.print(i);
+        Serial.print(":"); 
+        Serial.print(touchValue); 
+        Serial.print("\t");
 
-        // Serial.print("threshold");
-        // Serial.print(i);
-        // Serial.print(":"); 
-        // Serial.print(touchThresholds[i]); 
-        // Serial.print("\t");
+        Serial.print("threshold");
+        Serial.print(i);
+        Serial.print(":"); 
+        Serial.print(touchThresholds[i]); 
+        Serial.print("\t");
 
         if (touchValue < touchThresholds[i]) {
             touch_states[i] = 1; // Update the state in the passed-in array
@@ -77,5 +77,5 @@ void update_touch_states(int* touch_states) {
             touch_states[i] = 0; // Update the state in the passed-in array
         }
     }
-    // Serial.println();
+    Serial.println();
 }

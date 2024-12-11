@@ -1,3 +1,4 @@
+#ifdef TESTING
 /*
  * For human dj fsm testing
  */

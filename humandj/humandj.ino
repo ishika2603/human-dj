@@ -14,19 +14,17 @@ void setup() {
   memset(midiVector, 0, sizeof(midiVector));
   memset(faderVector, 0, sizeof(faderVector));
 
-  // testing for ISR functionality
   pinMode(ledPins[0], OUTPUT);
   pinMode(ledPins[1], OUTPUT);
   pinMode(ledPins[2], OUTPUT);
   pinMode(ledPins[3], OUTPUT);
 
-  attachInterrupt(digitalPinToInterrupt(buttonPin), calibrate_no_touch, RISING);
+  attachInterrupt(digitalPinToInterrupt(buttonPin), recalibrate_humans, RISING);
+  attachInterrupt(digitalPinToInterrupt(onboardPin), switch_onboard_player, RISING);
   
   #ifdef TESTING
-
   // estAllTests(); // for fsm testing
   runUnitTests();
-
   #else
 
   Serial.println("setup done");
@@ -40,7 +38,6 @@ void loop() {
   static state CURRENT_STATE = sINIT;
   CURRENT_STATE = updateFSM(CURRENT_STATE, touchVector, faderVector);
   delay(10);
-  
   #endif
 }
 
@@ -63,11 +60,8 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
         memset(touchVector, 0, sizeof(touchVector));
         memset(midiVector, 0, sizeof(midiVector));
         calibrate_voltage();
-        #ifdef ONBOARD
-          init_onboard_player();
-        #else 
-          init_MIDI();
-        #endif
+        init_onboard_player();
+        init_MIDI();
         update_fader_states(faderVector);
         isReady = true; 
         nextState = sINIT;
@@ -102,11 +96,11 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
         nextState = sWAIT_FOR_CHANGE;
       }
       else{ // transition 3-3
-        #ifdef ONBOARD
+        if (ONBOARD) {
           signalSent = send_onboard_note(touchVector, midiVector, faderVector);
-        #else
+        } else {
           signalSent = send_signal(touchVector, midiVector, faderVector);
-        #endif
+        }
         nextState = sSEND_SIGNAL;
       }
       break;

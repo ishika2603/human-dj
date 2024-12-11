@@ -6,7 +6,7 @@ int touchThresholds[NUM_PEOPLE]; // store dynamic thresholds for each pin
 #define TESTING
 
 // ISR related
-const int buttonPins[] = {D3, D4, D5, D6};
+const int buttonPin = D3;
 const int ledPins[] = {D12, D13, D11, D10};
 int ledStates[] = {LOW, LOW, LOW, LOW};
 

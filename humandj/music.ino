@@ -14,7 +14,7 @@ const uint8_t velocity = 127;
 
 // initialize the MIDI interface
 void init_MIDI() {
-    midi.begin();
+  midi.begin();
 }
 
 // general send_signal function to send a signal to the MIDI interface based on the signal type

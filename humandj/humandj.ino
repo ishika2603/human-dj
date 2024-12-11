@@ -20,16 +20,7 @@ void setup() {
   pinMode(ledPins[2], OUTPUT);
   pinMode(ledPins[3], OUTPUT);
 
-  pinMode(buttonPins[0], INPUT);
-  pinMode(buttonPins[1], INPUT);
-  pinMode(buttonPins[2], INPUT);
-  pinMode(buttonPins[3], INPUT);
-
-  // attachInterrupt(digitalPinToInterrupt(D3), calibrate_no_touch, RISING);
-  // attachInterrupt(digitalPinToInterrupt(buttonPins[1]), calibrate_no_touch_2, RISING);
-  // attachInterrupt(digitalPinToInterrupt(buttonPins[2]), calibrate_no_touch_3, RISING);
-  // attachInterrupt(digitalPinToInterrupt(buttonPins[3]), calibrate_no_touch_4, RISING);
-  
+  attachInterrupt(digitalPinToInterrupt(buttonPin), calibrate_no_touch, RISING);
   
   #ifdef TESTING
 
@@ -47,7 +38,6 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   #ifndef TESTING
-
   static state CURRENT_STATE = sINIT;
   CURRENT_STATE = updateFSM(CURRENT_STATE, touchVector, faderVector);
   delay(10);

@@ -31,14 +31,16 @@ void calibrate_voltage() {
 
       // // Set the threshold slightly below the mean to detect significant dips
       // touchThresholds[i] = mean - (3 * stddev); // Adjust the multiplier as per sensitivity needs
-
-      Serial.print("Calibrated threshold for Person ");
-      Serial.print(i + 1);
-      Serial.print(": ");
-      Serial.println(touchThresholds[i]);
-    
+      // noInterrupts();
+      // Serial.print("Calibrated threshold for Person ");
+      // Serial.print(i + 1);
+      // Serial.print(": ");
+      // Serial.println(touchThresholds[i]);
+      // interrupts();
     }
-    Serial.println();
+    // noInterrupts();
+    // Serial.println();
+    // interrupts();
 }
 
 void update_touch_states(int* touch_states) {

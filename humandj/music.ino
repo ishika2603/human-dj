@@ -20,8 +20,8 @@ void init_MIDI() {
 // general send_signal function to send a signal to the MIDI interface based on the signal type
 bool send_signal(int* touch_states, int* midi_states, int* fader_states) {
     // check for which people the touch states are different from midi states
+    send_pitch_bend(fader_states[0]);
     for (int i = 0; i < NUM_PEOPLE; i++) {
-
         // if touch state is same, skip
         if (touch_states[i] == midi_states[i]) { continue; }
 

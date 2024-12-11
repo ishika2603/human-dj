@@ -41,16 +41,17 @@ void calibrate_voltage() {
 
       // // Set the threshold slightly below the mean to detect significant dips
       // touchThresholds[i] = mean - (3 * stddev); // Adjust the multiplier as per sensitivity needs
-      // noInterrupts();
-      // Serial.print("Calibrated threshold for Person ");
-      // Serial.print(i + 1);
-      // Serial.print(": ");
-      // Serial.println(touchThresholds[i]);
-      // interrupts();
+      #ifdef DEBUG
+      Serial.print("Calibrated threshold for Person ");
+      Serial.print(i + 1);
+      Serial.print(": ");
+      Serial.println(touchThresholds[i]);
+      #endif
+
     }
-    // noInterrupts();
-    // Serial.println();
-    // interrupts();
+    #ifdef DEBUG
+    Serial.println();
+    #endif
 }
 
 void update_touch_states(int* touch_states) {
@@ -71,6 +72,7 @@ void update_touch_states(int* touch_states) {
         int touchValue = totalTouchValue / CALIBRATION_TIMES;
 
         // Open Serial Plotter to view these values real-time, useful for debugging
+        #ifdef DEBUG
         Serial.print("PersonAvg");
         Serial.print(i);
         Serial.print(":"); 
@@ -82,6 +84,7 @@ void update_touch_states(int* touch_states) {
         Serial.print(":"); 
         Serial.print(touchThresholds[i]); 
         Serial.print("\t");
+        #endif
 
         if (touchValue < touchThresholds[i]) {
             touch_states[i] = 1; // Update the state in the passed-in array
@@ -89,18 +92,21 @@ void update_touch_states(int* touch_states) {
             touch_states[i] = 0; // Update the state in the passed-in array
         }
     }
+    #ifdef DEBUG
     Serial.println();
+    #endif
 }
 
 /* TESTING MODULE */
 #else
 
 /* global vars for mock functions */
-const int NUM_PEOPLE = 4; // Test with 2 participants for simplicity
+// const int NUM_PEOPLE = 4; // Test with 2 participants for simplicity
 int mockReadings[NUM_PEOPLE][10] = {
         {500, 510, 520, 530, 540, 550, 560, 570, 580, 590}, // Person 1 readings
         {600, 610, 620, 630, 640, 650, 660, 670, 680, 690}  // Person 2 readings
     };
+int readIndex[NUM_PEOPLE] = {0, 0, 0, 0};
 
 /* mock functions */
 int helperAnalogRead(int pin){
@@ -159,7 +165,7 @@ void test_calibrate_voltage(){
   // TEST 1: threshold computed correctly with moving avg
   Serial.println("[touch_sense.ino] TEST 1: calibrate_voltage thresholds with moving average and constants");
   calibrate_voltage();
-  expectedThresholds[NUM_PEOPLE] = {425, 525, -120, 880};
+  int expectedThresholds[NUM_PEOPLE] = {425, 525, -120, 880};
   for (int i = 0; i < NUM_PEOPLE; i++) { assertBool(touchThresholds[i] == expectedThresholds[i]); }
   
   Serial.println("[touch_sense.ino] all calibrate_voltage unit tests passed!");
@@ -173,7 +179,7 @@ void test_update_touch_states(){
   // TEST 1: no touch detected for first 2 and touch for last 2
   Serial.println("[touch_sense.ino] TEST 1: update_touch_states");
   update_touch_states(touch_states);
-  expected_touch_states[NUM_PEOPLE] = {0, 0, 1, 1}
+  int expected_touch_states[NUM_PEOPLE] = {0, 0, 1, 1};
   for (int i = 0; i < NUM_PEOPLE; i++) { assertBool(touch_states[i] == expected_touch_states[i]); }
 
   Serial.println("[touch_sense.ino] all update_touch_states unit tests passed!");

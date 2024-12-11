@@ -4,7 +4,7 @@ sliders module for any slider logic!
 
 #ifndef TESTING
 
-int helperAnalogRead(int pin) {
+int customAnalogRead(int pin) {
   /*
   Wrapper function for analogRead for testing purposes. 
   For typical functionality, acts as normal analogRead.
@@ -14,7 +14,7 @@ int helperAnalogRead(int pin) {
 
 #else
 
-int helperAnalogRead(int pin) {
+int customAnalogRead(int pin) {
   /*
   Wrapper function for analogRead for testing purposes. 
   For typical functionality, acts as normal analogRead.
@@ -37,8 +37,8 @@ void update_fader_states(int* fader_states){
     */
 
     // dac values between 0 to 1023
-    int pitch_dac = helperAnalogRead(PITCH_PIN);
-    int volume_dac = helperAnalogRead(VOLUME_PIN);
+    int pitch_dac = customAnalogRead(PITCH_PIN);
+    int volume_dac = customAnalogRead(VOLUME_PIN);
 
     fader_states[0] = pitch_dac;
     fader_states[1] = volume_dac;

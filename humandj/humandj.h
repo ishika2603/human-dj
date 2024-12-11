@@ -1,21 +1,27 @@
-const int touchPins[] = {A1, A2, A4, A5};
-const int NUM_PEOPLE = sizeof(touchPins) / sizeof(touchPins[0]);
-int touchThresholds[NUM_PEOPLE]; // store dynamic thresholds for each pin
-
 // uncomment the following for testing
 #define TESTING
 
-// ISR related
+// uncomment the following for debugging information
+// #define DEBUG
+
+// pin definitions
+const int touchPins[] = {A1, A2, A4, A5};
 const int buttonPin = D3;
 const int ledPins[] = {D12, D13, D11, D10};
-int ledStates[] = {LOW, LOW, LOW, LOW};
 
 const int VOLUME_PIN = A0;
 const int PITCH_PIN = A3;
 
+// participants and dynamic thresholds thresholds
+const int NUM_PEOPLE = sizeof(touchPins) / sizeof(touchPins[0]);
+int touchThresholds[NUM_PEOPLE];
+
+// ISR related
+int ledStates[] = {LOW, LOW, LOW, LOW};
+
+
 /*
- * Type (enum and struct) definitions for state, orientation,
- * (xy) coordinate, (xyo) coordinate, (upper, lower) bounds
+ * Type for the state of the FSM
  */
 typedef enum {
   sINIT = 1,
@@ -35,6 +41,7 @@ void calibrate_voltage();
 // sliders.ino
 void update_fader_states(int* fader_states);
 
+// humandj.ino
 bool touch_equals_midi();
 state updateFSM(state curState, int* touchVector, int* faderVector);
 

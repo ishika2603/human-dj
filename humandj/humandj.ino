@@ -40,9 +40,9 @@ void loop() {
     #endif
 }
 
-bool touch_equals_midi() {
+bool touch_equals_midi(int* touch_states) {
     for (int i = 0; i < NUM_PEOPLE; i++) {
-        if (touchVector[i] != midiVector[i]) {
+        if (touch_states[i] != midiVector[i]) {
             return false; // If any element is different, the vectors are not equal
         }
     }
@@ -76,7 +76,7 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
             break;
 
         case sWAIT_FOR_CHANGE:
-            if (touch_equals_midi()) { // transition 2-2
+            if (touch_equals_midi(touchVector)) { // transition 2-2
                 update_touch_states(touchVector);
                 update_fader_states(faderVector);
                 nextState = sWAIT_FOR_CHANGE;

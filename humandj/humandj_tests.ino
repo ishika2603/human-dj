@@ -69,17 +69,17 @@ bool testTransition(state startState,
     }
 
     if (passed_test) {
-        Serial.print("[FSM] test from ");
+        Serial.print("[FSM] test from (");
         Serial.print(s2str(startState));
-        Serial.print(" to ");
+        Serial.print(" -> ");
         Serial.print(s2str(endState));
-        Serial.println(" passed");
+        Serial.println(") passed");
     } else {
-        Serial.print("[FSM] test from ");
+        Serial.print("[FSM] test from (");
         Serial.print(s2str(startState));
-        Serial.print(" to ");
+        Serial.print(" -> ");
         Serial.print(s2str(endState));
-        Serial.println(" failed");
+        Serial.println(") failed");
     }
 
     #ifdef DEBUG
@@ -115,12 +115,46 @@ bool testTransition(state startState,
     return passed_test;
 }
 
-const int numTests = 1;
-const state testStatesIn[numTests] = {sINIT};
-const state testStatesOut[numTests] = {sWAIT_FOR_CHANGE};
-const state_inputs testInputs[numTests] = {0};
-const state_vars testVarsIn[numTests] = {0};
-const state_vars testVarsOut[numTests] = {0};
+const int numTests = 4;
+
+const char* testNames[numTests] = {
+    "initialization always finishes",
+    "if no touch state changes, keeps waiting",
+    "if participant stops touching, sends signal",
+    "if participant starts touching, sends signal"
+};
+
+const state testStatesIn[numTests] = {
+    sINIT,
+    sWAIT_FOR_CHANGE,
+    sWAIT_FOR_CHANGE,
+    sWAIT_FOR_CHANGE,
+};
+const state testStatesOut[numTests] = {
+    sWAIT_FOR_CHANGE,
+    sWAIT_FOR_CHANGE,
+    sSEND_SIGNAL,
+    sSEND_SIGNAL,
+};
+const state_inputs testInputs[numTests] = {
+    {.touch_states = {0, 0, 0, 0}, .fader_states = {0, 0}},
+    {.touch_states = {0, 1, 0, 1}, .fader_states = {0, 0}},
+    {.touch_states = {1, 1, 0, 1}, .fader_states = {0, 0}},
+    {.touch_states = {1, 0, 0, 0}, .fader_states = {0, 0}},
+};
+const state_vars testVarsIn[numTests] = {
+    {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
+    {.midi_states = {0, 1, 0, 1}, .signal_sent = false},
+    {.midi_states = {1, 1, 1, 1}, .signal_sent = false},
+    {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
+
+};
+const state_vars testVarsOut[numTests] = {
+    {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
+    {.midi_states = {0, 1, 0, 1}, .signal_sent = false},
+    {.midi_states = {1, 1, 1, 1}, .signal_sent = false},
+    {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
+};
 
 
 /*

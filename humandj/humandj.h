@@ -1,8 +1,8 @@
 // uncomment the following for testing
-// #define TESTING
+#define TESTING
 
 // uncomment the following for debugging information
-// #define DEBUG
+#define DEBUG
 
 // pin definitions
 const int touchPins[] = {A1, A2, A4, A5};
@@ -24,9 +24,9 @@ int ledStates[] = {LOW, LOW, LOW, LOW};
  * Type for the state of the FSM
  */
 typedef enum {
-  sINIT = 1,
-  sWAIT_FOR_CHANGE = 2,
-  sSEND_SIGNAL = 3,
+    sINIT = 1,
+    sWAIT_FOR_CHANGE = 2,
+    sSEND_SIGNAL = 3,
 } state;
 
 // music.ino
@@ -60,6 +60,22 @@ bool send_onboard_note(int* touch_states, int* midi_states, int* fader_states);
 /* Testing */
 #ifdef TESTING
 
+/*
+ * Type for the inputs to the FSM
+ */
+typedef struct {
+    int touch_states[NUM_PEOPLE];
+    int fader_states[2];
+} state_inputs;
+
+/*
+ * Type for the variables of the FSM
+ */
+typedef struct {
+    int midi_states[NUM_PEOPLE];
+    bool signal_sent;
+} state_vars;
+
 // humandj_tests.ino
 void assertBool(bool b);
 void runUnitTests();
@@ -68,7 +84,7 @@ void testAllTests();
 // music.ino
 void test_send_signal();
 
-//sliders.ino
+// sliders.ino
 void test_update_fader_states();
 
 // onboard_player.ino

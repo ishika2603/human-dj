@@ -9,7 +9,7 @@ int helperAnalogRead(int pin){
   /*
   * Function wrapper for analogRead, custom definition used for testing.
   */
-  return analogRead(pin)
+  return analogRead(pin);
 }
 
 void calibrate_voltage() {

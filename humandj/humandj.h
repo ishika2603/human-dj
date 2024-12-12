@@ -50,8 +50,6 @@ void recalibrate_humans();
 void switch_onboard_player();
 
 /* Capstone */
-// uncomment the following line to use the onboard player
-// #define ONBOARD
 int onboardPin = D3;
 bool ONBOARD = false;
 void init_onboard_player();

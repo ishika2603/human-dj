@@ -1,5 +1,7 @@
 /*
 * Library to convert MIDI notes to waveforms and send to onboard player.
+* When onboard player is selected, MIDI connection to the laptop/DAW is not necessary,
+* and the human DJ can make music as a standalone device!
 * Authored by Eva and Komron for HumanDJ capstone component.
 */
 

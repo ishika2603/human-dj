@@ -8,7 +8,6 @@ static int midiVector[NUM_PEOPLE];
 void setup() {
     // put your setup code here, to run once:
     Serial.begin(9600);
-    signalSent = false;
     memset(touchVector, 0, sizeof(touchVector));  // check_for_change(touchVector, sliderVector, ) 
     memset(midiVector, 0, sizeof(midiVector));
     memset(faderVector, 0, sizeof(faderVector));
@@ -57,6 +56,7 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
         case sINIT: // transition 1-2
             memset(touchVector, 0, sizeof(touchVector));
             memset(midiVector, 0, sizeof(midiVector));
+            signalSent = false;
             calibrate_voltage();
             init_onboard_player();
             init_MIDI();

@@ -1,5 +1,5 @@
 // uncomment the following for testing
-#define TESTING
+// #define TESTING
 
 // uncomment the following for debugging information
 #define DEBUG

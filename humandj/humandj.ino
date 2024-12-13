@@ -56,7 +56,7 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
         case sINIT: // transition 1-2
             memset(touchVector, 0, sizeof(touchVector));
             memset(midiVector, 0, sizeof(midiVector));
-            signalSent = false;
+            signalSent = true;
             calibrate_voltage();
             init_onboard_player();
             init_MIDI();

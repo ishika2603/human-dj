@@ -1,5 +1,7 @@
 # Human DJ
 
+[`[Report]`](/docs/final_report.pdf) [`[Flyer]`](/docs/demo-flyer.pdf)
+
 Eva Schiller, Ishika Tulsian, Komron Aripov, Rohit Panse
 
 ![Human DJ](docs/banner.png)

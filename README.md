@@ -1,6 +1,6 @@
 # Human DJ
 
-[`[Report]`](/docs/final_report.pdf) [`[Flyer]`](/docs/demo-flyer.pdf)
+[`[Report]`](/docs/final_report.pdf) [`[Flyer]`](/docs/demo-flyer.pdf) [`[Capstone Video]`](https://drive.google.com/file/d/1FZ32d6PfrGLfvN7hH_YA7-6vvKbcEuVw/view?usp=sharing)
 
 Eva Schiller, Ishika Tulsian, Komron Aripov, Rohit Panse
 

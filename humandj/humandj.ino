@@ -11,6 +11,7 @@ void setup() {
     memset(touchVector, 0, sizeof(touchVector));  // check_for_change(touchVector, sliderVector, ) 
     memset(midiVector, 0, sizeof(midiVector));
     memset(faderVector, 0, sizeof(faderVector));
+    signalSent = false;
 
     pinMode(ledPins[0], OUTPUT);
     pinMode(ledPins[1], OUTPUT);
@@ -21,11 +22,14 @@ void setup() {
     attachInterrupt(digitalPinToInterrupt(onboardPin), switch_onboard_player, RISING);
 
     #ifdef TESTING
+    
     testAllTests();
     runUnitTests();
+
     #else
 
-    Serial.println("setup done");
+    initWDT();
+    Serial.println("Setup done!");
 
     #endif
 }
@@ -34,8 +38,11 @@ void loop() {
     // put your main code here, to run repeatedly:
     #ifndef TESTING
     static state CURRENT_STATE = sINIT;
+
+    petWDT();
     CURRENT_STATE = updateFSM(CURRENT_STATE, touchVector, faderVector);
     delay(10);
+
     #endif
 }
 
@@ -56,7 +63,7 @@ state updateFSM(state curState, int* touchVector, int* faderVector) {
         case sINIT: // transition 1-2
             memset(touchVector, 0, sizeof(touchVector));
             memset(midiVector, 0, sizeof(midiVector));
-            signalSent = true;
+            signalSent = false;
             calibrate_voltage();
             init_onboard_player();
             init_MIDI();

@@ -1,11 +1,11 @@
 // uncomment the following for testing
-// #define TESTING
+#define TESTING
 
 // uncomment the following for debugging information
 #define DEBUG
 
 // pin definitions
-const int touchPins[] = {A1, A2, A4, A5};
+int touchPins[] = {A1, A2, A4, A5};
 const int buttonPin = D2;
 const int ledPins[] = {D12, D13, D11, D10};
 
@@ -45,9 +45,15 @@ void update_fader_states(int* fader_states);
 bool touch_equals_midi();
 state updateFSM(state curState, int* touchVector, int* faderVector);
 
-//buttons.ino
+// buttons.ino
 void recalibrate_humans();
 void switch_onboard_player();
+
+// watchdog.ino
+unsigned int getNextCPUINT(unsigned int start);
+void initWDT();
+void petWDT();
+void wdtISR();
 
 /* Capstone */
 int onboardPin = D3;

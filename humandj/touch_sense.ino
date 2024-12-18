@@ -158,28 +158,42 @@ void update_touch_states(int* touch_states) {
 
 /* test functions */
 void test_calibrate_voltage(){
-  int touchPins[NUM_PEOPLE] = {0, 1, 2, 3};
-  int touchThresholds[NUM_PEOPLE];
+  memset(touchPins, 0, sizeof(touchPins));
+  memset(touchThresholds, 0, sizeof(touchThresholds));
 
   // TEST 1: threshold computed correctly with moving avg
+  touchPins[0] = 0;
+  touchPins[1] = 1;
+  touchPins[2] = 2;
+  touchPins[3] = 3;
   Serial.println("[touch_sense.ino] TEST 1: calibrate_voltage thresholds with moving average and constants");
   calibrate_voltage();
   int expectedThresholds[NUM_PEOPLE] = {425, 525, -120, 880};
   for (int i = 0; i < NUM_PEOPLE; i++) { assertBool(touchThresholds[i] == expectedThresholds[i]); }
+  memset(touchPins, 0, sizeof(touchPins)); // cleanup
+  memset(touchThresholds, 0, sizeof(touchThresholds));
   
   Serial.println("[touch_sense.ino] all calibrate_voltage unit tests passed!");
 }
 
 void test_update_touch_states(){
-  int touchPins[NUM_PEOPLE] = {4, 5, 6, 7};
-  int touchThresholds[NUM_PEOPLE] = {380, 480, 580, 680}; // Predefined thresholds
   int touch_states[NUM_PEOPLE] = {0, 0, 0, 0}; // Initial states
 
   // TEST 1: no touch detected for first 2 and touch for last 2
+  touchThresholds[0] = 380;
+  touchThresholds[1] = 480;
+  touchThresholds[2] = 580;
+  touchThresholds[3] = 680;
+  touchPins[0] = 4;
+  touchPins[1] = 5;
+  touchPins[2] = 6;
+  touchPins[3] = 7;
   Serial.println("[touch_sense.ino] TEST 1: update_touch_states");
   update_touch_states(touch_states);
   int expected_touch_states[NUM_PEOPLE] = {0, 0, 1, 1};
   for (int i = 0; i < NUM_PEOPLE; i++) { assertBool(touch_states[i] == expected_touch_states[i]); }
+  memset(touchPins, 0, sizeof(touch_states)); // cleanup
+  memset(touchThresholds, 0, sizeof(touchThresholds));
 
   Serial.println("[touch_sense.ino] all update_touch_states unit tests passed!");
 }

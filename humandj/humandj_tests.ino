@@ -115,7 +115,7 @@ bool testTransition(state startState,
     return passed_test;
 }
 
-const int numTests = 6;
+const int numTests = 8;
 
 const char* testNames[numTests] = {
     "initialization always finishes",
@@ -124,7 +124,8 @@ const char* testNames[numTests] = {
     "if participant stops touching, sends signal",
     "if participant starts touching, sends signal",
     "if two participants change state, sends signal",
-    "if not is not played, try sending signal again",
+    "if note is not played, try sending signal again",
+    "after note is played, wait for change",
 };
 
 const state testStatesIn[numTests] = {
@@ -135,6 +136,7 @@ const state testStatesIn[numTests] = {
     sWAIT_FOR_CHANGE,
     sWAIT_FOR_CHANGE,
     sSEND_SIGNAL,
+    sSEND_SIGNAL,
 };
 const state testStatesOut[numTests] = {
     sWAIT_FOR_CHANGE,
@@ -144,6 +146,7 @@ const state testStatesOut[numTests] = {
     sSEND_SIGNAL,
     sSEND_SIGNAL,
     sSEND_SIGNAL,
+    sWAIT_FOR_CHANGE,
 };
 const state_inputs testInputs[numTests] = {
     {.touch_states = {0, 0, 0, 0}, .fader_states = {0, 0}},
@@ -152,6 +155,7 @@ const state_inputs testInputs[numTests] = {
     {.touch_states = {1, 1, 0, 1}, .fader_states = {0, 0}},
     {.touch_states = {1, 0, 0, 0}, .fader_states = {0, 0}},
     {.touch_states = {1, 1, 0, 0}, .fader_states = {0, 0}},
+    {.touch_states = {0, 0, 0, 0}, .fader_states = {0, 0}},
     {.touch_states = {0, 0, 0, 0}, .fader_states = {0, 0}},
 };
 const state_vars testVarsIn[numTests] = {
@@ -162,7 +166,7 @@ const state_vars testVarsIn[numTests] = {
     {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
     {.midi_states = {0, 1, 1, 0}, .signal_sent = false},
     {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
-
+    {.midi_states = {0, 0, 0, 0}, .signal_sent = true},
 };
 const state_vars testVarsOut[numTests] = {
     {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
@@ -171,6 +175,7 @@ const state_vars testVarsOut[numTests] = {
     {.midi_states = {1, 1, 1, 1}, .signal_sent = false},
     {.midi_states = {0, 0, 0, 0}, .signal_sent = false},
     {.midi_states = {0, 1, 1, 0}, .signal_sent = false},
+    {.midi_states = {0, 0, 0, 0}, .signal_sent = true},
     {.midi_states = {0, 0, 0, 0}, .signal_sent = true},
 };
 
@@ -186,7 +191,7 @@ void testAllTests() {
             while (true); // hang if test fails
         }
     }
-    Serial.println("[FSM] all tests passed!");
+    Serial.println("All FSM tests passed!");
 }
 
 /*
@@ -199,6 +204,7 @@ void runUnitTests() {
     test_update_fader_states();
     test_calibrate_voltage();
     test_update_touch_states();
+    Serial.println("All unit tests passed!");
 }
 
 #endif
